@@ -4,7 +4,7 @@ import { useSelector } from 'react-redux';
 const Sidebar = () => {
   const isHamMenuOpen = useSelector((store) => store.app.isMenuOpen);
   return (
-    <div>
+    <div className=''>
       {isHamMenuOpen && (
         <div className="sidebar-conatiner shadow-lg w-48 p-8">
           <div className="">
