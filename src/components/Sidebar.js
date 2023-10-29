@@ -6,7 +6,7 @@ const Sidebar = () => {
   return (
     <div className=''>
       {isHamMenuOpen && (
-        <div className="sidebar-conatiner shadow-lg w-48 p-8">
+        <div className=" sidebar-conatiner shadow-lg w-48 p-8">
           <div className="">
             <ul >
               <li className='my-1'>Home</li>

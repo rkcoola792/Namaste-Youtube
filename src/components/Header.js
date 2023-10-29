@@ -1,7 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { toggleMenu } from "../utils/appSlice";
-import { Link } from "react-router-dom";
 import { YOUTUBE_SEARCH_API } from "../utils/constants";
 
 const Header = () => {
@@ -9,6 +8,8 @@ const Header = () => {
   const dispatch=useDispatch();
 
   const [searchQuery,setSearchQuery]=useState("");
+  const [suggestion,setSuggestion]=useState([]);
+  const [showSuggestion,setShowSuggestion]=useState(false);
 
   useEffect(()=>{
 
@@ -29,6 +30,7 @@ return()=>{
     const data=await fetch(YOUTUBE_SEARCH_API+searchQuery)
     const json=await data.json()
     // console.log("API search results", json[1])
+    setSuggestion(json[1])
   }
 
   // console.log("storeData",isHamMenuOpen)
@@ -51,16 +53,31 @@ return()=>{
         </a>
       </div>
       <div className="mid-container col-span-10 text-center mt-3  ">
-        <input
-          className="w-1/2 border border-gray-400 p-1 px-4 rounded-l-full "
-          type="text"
-          placeholder="What would you like to watch"
-          value={searchQuery}
-          onChange={(e)=>{setSearchQuery(e.target.value)}}
-        ></input>
-        <button className="border border-gray-400 p-1 px-4 rounded-r-full  ">
-          Search
-        </button>
+        <div>
+          <input
+            className="w-1/2 border border-gray-400 p-1 px-4 rounded-l-full "
+            type="text"
+            placeholder="What would you like to watch"
+            value={searchQuery}
+            onChange={(e) => {
+              setSearchQuery(e.target.value);
+            }}
+            onFocus={()=>setShowSuggestion(true)}
+            onBlur={()=>setShowSuggestion(false)}
+          ></input>
+          <button className="border border-gray-400 p-1 px-4 rounded-r-full  ">
+            Search
+          </button>
+        </div>
+        <div className="text-left ml-48 absolute bg-white w-[28.5rem] shadow-lg rounded border border-gray-200">
+          <ul>
+            {
+              showSuggestion && suggestion.map(ele => 
+                <li className="hover:bg-gray-100 pb-2 px-4">{ele}</li>
+              )}
+     
+          </ul>
+        </div>
       </div>
       <div className="right-container col-span-1">
         <img
